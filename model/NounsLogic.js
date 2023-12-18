@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default NounsLogic = () => {
-  const [data, setData] = useState([
+  const [nouns, setData] = useState([
   {
     "id": 1,
     "name": "Robert Downey Jr.",
@@ -58,9 +58,9 @@ export default NounsLogic = () => {
   };
 
   readNoun = (id) => {
-    const foundObject = data.find(obj => obj.id === id);
+    const foundObject = nouns.find(obj => obj.id === id);
     // console.log(foundObject);
-    return ['read', 'Noun id = ', id];
+    return foundObject;
   };
 
   updateNoun = (id) => {
@@ -72,8 +72,8 @@ export default NounsLogic = () => {
   };
 
   listNouns = () => {
-    // console.log('model', data);
-    return data;
+    //  console.log('listNouns', nouns);
+    return nouns;
   };
 
   return {

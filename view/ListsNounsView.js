@@ -1,11 +1,15 @@
 import { Button, SafeAreaView, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Lists from './components/Lists';
+import NounsList from './Lists/NounsList';
+import { useNounsContext } from '../controller/NounsController';
 
 const ListNounsView = () => {
+  const { nounsState } = useNounsContext();
+    // console.log(nounsState);
   return (
     <>
-      <Lists />
+    <Text>List Nouns</Text>
+    <Text>{nounsState.message}</Text>
+      <NounsList action= 'READNOUN'/>
     </>
   );
 };

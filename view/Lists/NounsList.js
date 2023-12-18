@@ -2,21 +2,20 @@ import { useContext } from 'react';
 import {
   View,
   Image,
-  // Een FlatList component rendert alleen items op het scherm, waardoor de app beter presteert bij lange lijsten.
   FlatList,
   Text,
   Button,
   TouchableOpacity,
 } from 'react-native';
-import styles from './ListStyle'; // Import the styles module
+import styles from './ListStyle';
 import { NounsContext } from '../../controller/NounsController';
-// import {navigation} from '../../controller/NounsController';
 
-const Lists = () => {
-  const { state, dispatch } = useContext(NounsContext);
-console.log(state);
-  const Item = (props) => {
-    const { id, name, bornAt, photo } = props;
+const NounsList = () => {
+  const { nounsState, dispatch } = useContext(NounsContext);
+  console.log(nounsState);
+
+  const Item = (item) => {
+    const { id, name, bornAt, photo } = item;
     return (
       <View style={styles.listcontainer}>
         <Image style={styles.listlead} source={{ uri: photo }} />
@@ -36,22 +35,19 @@ console.log(state);
   };
 
   return (
-    <><FlatList
-      data={state.data}
+    <FlatList
+      data={nounsState.nouns}
       renderItem={({ item }) => (
         <Item
           id={item.id}
           name={item.name}
           bornAt={item.bornAt}
           photo={item.photo}
-          keyExtractor={(item) => item.id} />
-      )} />
-      <Button
-        title="Add Contact"
-        onPress={() => navigation.navigate('Create')} />
-        </>
-
+        />
+      )}
+      keyExtractor={(item) => item.id}
+    />
   );
 };
 
-export default Lists;
+export default NounsList;

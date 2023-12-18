@@ -5,6 +5,7 @@ import React, { createContext, useReducer, useContext } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import NounsLogic from '../model/NounsLogic';
 
+
 // Een context maken voor het beheren van de status
 export const NounsContext = createContext();
 
@@ -51,7 +52,7 @@ export const NounsController = ({ children }) => {
   };
 
   // Reducer-functie voor het afhandelen van State-veranderingen op basis van verzonden acties
-  const handleRequest = (state, action) => {
+  const handleRequest = (nounsState, action) => {
     switch (action.type) {
       case 'CREATENOUN':
         console.log('CREATENOUNtriggered', action);
@@ -60,40 +61,40 @@ export const NounsController = ({ children }) => {
 
         navigation.navigate('CreateNounView');
         return {
-          ...state,
+          ...nounsState,
           currentScreen: 'CreateNounView',
           message: 'Create your noun',
         };
       case 'READNOUN':
         console.log('READNOUNtriggerd', action);
 
-        update = collectReadNoun(state.id);
+        update = collectReadNoun(nounsState.id);
 
         navigation.navigate('ReadNounView');
         return {
-          ...state,
+          ...nounsState,
           currentScreen: 'ReadNounView',
           noun: 'Read',
         };
       case 'UPDATENOUN':
         console.log('UPDATENOUNtriggerd', action);
 
-        update = collectUpdateNoun(state.id);
+        update = collectUpdateNoun(nounsState.id);
 
         navigation.navigate('UpdateNounView');
         return {
-          ...state,
+          ...nounsState,
           currentScreen: 'UpdateNounView',
           noun: 'Update',
         };
       case 'DELETENOUN':
         console.log('DELETENOUNtriggered', action);
 
-        update = collectDeleteNoun(state.id);
+        update = collectDeleteNoun(nounsState.id);
 
         navigation.navigate('DeleteNounView');
         return {
-          ...state,
+          ...nounsState,
           currentScreen: 'DeleteNounView',
           noun: 'Delete',
         };
@@ -104,9 +105,9 @@ export const NounsController = ({ children }) => {
 
         navigation.navigate('ListNounsView');
         return {
-          ...state,
+          ...nounsState,
           currentScreen: 'ListNounsView',
-          data: list,
+          nouns: list,
         };
       default:
         throw new Error('Unknown action');
@@ -114,11 +115,11 @@ export const NounsController = ({ children }) => {
   };
 
   // State en dispatch initialiseren met useReducer
-  const [state, dispatch] = useReducer(handleRequest, initialState);
+  const [nounsState, dispatch] = useReducer(handleRequest, initialState);
 
   // State en dispatch aanbieden via de context aan zijn kinderen
   return (
-    <NounsContext.Provider value={{ state, dispatch }}>
+    <NounsContext.Provider value={{ nounsState, dispatch }}>
       {children}
     </NounsContext.Provider>
   );
